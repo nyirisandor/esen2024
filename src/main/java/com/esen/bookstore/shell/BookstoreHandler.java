@@ -50,4 +50,18 @@ public class BookstoreHandler {
         bookStoreService.updateBookStore(id,location,pricemodifier,moneyInCashRegister);
     }
 
+    @ShellMethod(key = "get stock", value = "Get stock")
+    String getStock(Long id){
+        return bookStoreService.getStock(id)
+                .entrySet()
+                .stream()
+                .map(e -> "ID: %s, Title: %s, Stock: %s".formatted(e.getKey().getId(),e.getKey().getTitle(),e.getValue()))
+                .collect(Collectors.joining(System.lineSeparator()));
+    }
+
+    @ShellMethod(key = "add stock", value = "add stock")
+    void addStock(Long bookstoreId, Long bookId, Integer amount){
+        bookStoreService.changeStock(bookstoreId,bookId, amount);
+    }
+
 }
